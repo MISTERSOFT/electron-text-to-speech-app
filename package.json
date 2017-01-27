@@ -1,0 +1,26 @@
+{
+  "name": "electron-text-to-speech-app",
+  "version": "1.0.0",
+  "description": "Interprets text then read it",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MISTERSOFT/electron-text-to-speech-app.git"
+  },
+  "keywords": [
+    "electron",
+    "speech"
+  ],
+  "author": "Sofiane HAMADI",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MISTERSOFT/electron-text-to-speech-app/issues"
+  },
+  "homepage": "https://github.com/MISTERSOFT/electron-text-to-speech-app#readme",
+  "devDependencies": {
+    "electron": "^1.4.15"
+  }
+}
