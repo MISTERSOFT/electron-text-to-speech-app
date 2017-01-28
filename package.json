@@ -1,10 +1,11 @@
 {
   "name": "electron-text-to-speech-app",
   "version": "1.0.0",
-  "description": "Interprets text then read it",
-  "main": "index.js",
+  "description": "Interprets text then speech it",
+  "main": "./src/app/electron/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ./src/electron/main.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,18 @@
   },
   "homepage": "https://github.com/MISTERSOFT/electron-text-to-speech-app#readme",
   "devDependencies": {
-    "electron": "^1.4.15"
+    "electron": "^1.4.15",
+    "gulp": "^3.9.1",
+    "gulp-angular-templatecache": "^2.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-inject": "^4.2.0",
+    "gulp-uglify": "^2.0.1",
+    "stream-series": "^0.1.1"
+  },
+  "dependencies": {
+    "angular": "^1.6.1",
+    "angular-route": "^1.6.1",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.1"
   }
 }

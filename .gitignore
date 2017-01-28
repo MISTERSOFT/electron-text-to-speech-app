@@ -1,1 +1,5 @@
 node_modules/
+.vscode/
+
+# public folder
+src/electron/public/
