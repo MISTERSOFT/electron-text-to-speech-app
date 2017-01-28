@@ -5,7 +5,9 @@
   "main": "./src/app/electron/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ./src/electron/main.js"
+    "start": "npm run build-dev && npm run serve",
+    "build-dev": "gulp build-dev",
+    "serve": "electron ./src/electron/main.js"
   },
   "repository": {
     "type": "git",
