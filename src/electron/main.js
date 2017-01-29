@@ -15,8 +15,9 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow()
-  // {width: 800, height: 600}
+  mainWindow = new BrowserWindow({
+    maximizable: false
+  })
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -28,9 +29,10 @@ function createWindow () {
   mainWindow.maximize()
   Menu.setApplicationMenu(null)
 
-
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
+
+  mainWindow.webContents.debugger.sendCommand('console.log', {test: 'test'})
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -65,4 +67,10 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-require('./load.js')
+const SpeechService = require('./server/speechService.js')
+const accessKey = require('./server/load.js').accessTokenAPI()
+
+let speechService = new SpeechService()
+speechService.setSubscriptionKey(accessKey)
+speechService.refreshAccessToken()
+// speechService.textToSpeech('Bonjour')

@@ -1,1 +1,0 @@
-let config = JSON.parse(require('./config.json')) || {};
