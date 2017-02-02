@@ -36,7 +36,10 @@
   "dependencies": {
     "angular": "1.6.1",
     "angular-route": "1.6.1",
+    "body-parser": "^1.16.0",
     "bootstrap": "3.3.7",
-    "jquery": "3.1.1"
+    "express": "^4.14.1",
+    "jquery": "3.1.1",
+    "stream-buffers": "^3.0.1"
   }
 }

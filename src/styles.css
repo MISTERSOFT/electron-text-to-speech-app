@@ -47,7 +47,7 @@
     cursor: pointer;
     padding-top: 8px;
 }
-.sidebar-nav li a:hover {
+.sidebar-nav li a:hover, .active-page {
     text-decoration: none;
     color: #fff;
     background: rgba(255,255,255,0.2);
@@ -74,4 +74,5 @@
 }
 textarea.form-control {
     resize: none;
+    font-size: 24px;
 }

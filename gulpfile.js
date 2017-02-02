@@ -19,6 +19,7 @@ gulp.task('js', function() {
         nodeModulesPath + 'angular-route/angular-route.js',
         appFilePath + 'app/**/*.module.js',
         appFilePath + 'app/**/*.js',
+        appFilePath + 'app/**/**/*.js'
     ])
     .pipe(concat(jsBuildFile))
     .pipe(gulp.dest(distFolder + 'js/'));
@@ -47,11 +48,13 @@ gulp.task('fonts', function() {
     .pipe(gulp.dest(distFolder + 'fonts/'));
 });
 
-gulp.task('build-dev', ['css', 'fonts', 'js', 'templates'], function() {
+gulp.task('index', function() {
     // copy index.html into the public folder
-    gulp.src(appFilePath + 'index.html')
+    return gulp.src(appFilePath + 'index.html')
         .pipe(gulp.dest(distFolder));
-    
+});
+
+gulp.task('build-dev', ['index', 'css', 'fonts', 'js', 'templates'], function() { 
     // Inject CSS and JS files into the index.html createed before
     return gulp.src(distFolder + 'index.html')
         .pipe(inject(gulp.src(distFolder + 'css/' + cssBuildFile), {relative: true}))

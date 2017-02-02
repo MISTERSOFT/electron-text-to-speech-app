@@ -1,0 +1,9 @@
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <!--<li class="sidebar-brand"><a href="#">Start Bootstrap</a></li>-->
+        <li ng-class="{ 'active-page' : vm.isSpeechPage() }">
+            <a href="#!/speech"><span class="sidebar-icon glyphicon glyphicon-comment" aria-hidden="true"></span>Speech</a></li>
+        <li ng-class="{ 'active-page' : vm.isFavoritePage() }">
+            <a href="#!/favorite"><span class="sidebar-icon glyphicon glyphicon-star" aria-hidden="true"></span>Favorites</a></li>
+    </ul>
+</div>

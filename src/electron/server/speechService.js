@@ -1,6 +1,9 @@
 const request = require('request')
 const util = require('util')
 const fs = require('fs')
+const streamBuffers = require("stream-buffers")
+
+const Result = require('./result')
 
 module.exports = class SpeechService {
 
@@ -25,17 +28,11 @@ module.exports = class SpeechService {
                     'X-Search-AppId': '74D573BF42D042E1A194B3EA2BCFA07C', // Random GUID generated, just for this app
                     'X-Search-ClientID': '4E500D1AA9F6462499208146917D7676', // Random GUID generated, just for this app
                     'User-Agent': 'electron-text-to-speech-app'
+                    // 'Content-Length': 0
                 }
             }
         }
         this.ssmlTemplate = `<speak version="1.0" xml:lang="fr-FR"><voice xml:lang="fr-FR" xml:gender="Male" name="Microsoft Server Speech Text to Speech Voice (fr-FR, Paul, Apollo)">%s</voice></speak>`
-    }
-
-    go() {
-        let mins = 540000 // 9mins
-        setTimeout(() => {
-
-        }, mins)
     }
 
     setSubscriptionKey(key) {
@@ -60,17 +57,23 @@ module.exports = class SpeechService {
 
             if (response.statusCode === 200) {
                 this.setAuthBearer(body)
-                this.textToSpeech('Bonjour')
             }
             else {
                 throw new Error(response.statusMessage)
             }
-            // TODO
         })
     }
 
-    textToSpeech(textToSynthesized) {
+    textToSpeech(textToSynthesized, callback) {
         this.textToSynthesized = textToSynthesized
+
+        let _body = util.format(this.ssmlTemplate, textToSynthesized)
+        
+        let wStreamBuff = new streamBuffers.WritableStreamBuffer({
+            initialSize: (100 * 1024),      // start as 100 kilobytes
+            incrementAmount: (10 * 1024)    // grow by 10 kilobytes each time buffer overflows
+        })
+
         request.post({
             url: this.API.client.url,
             headers: this.API.client.headers,
@@ -82,31 +85,25 @@ module.exports = class SpeechService {
                 'AuthorizationToken': this.accessToken,
                 'Text': textToSynthesized
             },
-            body: util.format(this.ssmlTemplate, textToSynthesized)
+            body: _body
         }, (err, response, streamAudio) => {
             if (err) {
                 console.log('Error - [textToSpeech]', err)
             }
 
             if (response.statusCode === 200) {
-                fs.writeFile('test.wav', streamAudio, 'binary', (error) => {
-                    if (error) {
-                        console.log('writeFile streamAudio ', error)
-                    }
-                })
+                // Audio to base64
+                let data = wStreamBuff.getContents().toString('base64')
+                callback(new Result(true, data))
             }
             else if (response.statusCode === 403) {
                 this.refreshAccessToken()
                 this.textToSpeech(this.textToSynthesized)
             }
             else {
-                throw new Error(response.statusMessage)
+                callback(new Result(false, null))
             }
-        })
-    }
-
-    convertToWave() {
-
+        }).pipe(wStreamBuff)
     }
 
 }

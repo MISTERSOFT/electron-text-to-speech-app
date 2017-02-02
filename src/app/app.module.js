@@ -3,6 +3,9 @@
 
     angular.module('app', [
         'ngRoute',
-        'app.speech'
+        'app.layout',
+        'app.shared',
+        'app.speech',
+        'app.favorite'
     ]);
 })();

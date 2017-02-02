@@ -7,13 +7,18 @@
     function routesConfig($routeProvider) {
 
         $routeProvider
-            .when('/', {
+            .when('/speech', {
                 controller: 'SpeechController',
                 controllerAs: 'vm',
                 templateUrl: 'templates/speech/speech.controller.html'
             })
+            .when('/favorite', {
+                controller: 'FavoriteController',
+                controllerAs: 'vm',
+                templateUrl: 'templates/favorite/favorite.controller.html'
+            })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/speech'
             });
     }
 })();

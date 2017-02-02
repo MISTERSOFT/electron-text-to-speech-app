@@ -8,6 +8,7 @@ const Menu = electron.Menu;
 
 const path = require('path')
 const url = require('url')
+const server = require('./server/app-express.js')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -16,7 +17,7 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    maximizable: false
+    maximizable: true
   })
 
   // and load the index.html of the app.
@@ -32,7 +33,8 @@ function createWindow () {
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
-  mainWindow.webContents.debugger.sendCommand('console.log', {test: 'test'})
+  // Init Express
+  server()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -67,10 +69,3 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-const SpeechService = require('./server/speechService.js')
-const accessKey = require('./server/load.js').accessTokenAPI()
-
-let speechService = new SpeechService()
-speechService.setSubscriptionKey(accessKey)
-speechService.refreshAccessToken()
-// speechService.textToSpeech('Bonjour')
