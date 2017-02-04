@@ -19,5 +19,7 @@ class Response {
     }
 }
 
-module.exports = Response
-module.exports = ResponseError
+module.exports = {
+    Response: Response,
+    ResponseError: ResponseError
+}

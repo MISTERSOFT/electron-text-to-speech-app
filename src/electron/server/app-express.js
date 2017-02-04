@@ -7,6 +7,7 @@ module.exports = () => {
     const SpeechService = require('./speechService.js')
     const accessKey = require('./load.js').accessTokenAPI()
 
+    // Middlewares
     server.use(bodyParser.urlencoded({extended: true}))
     server.use(bodyParser.json())
     server.use((req, res, next) => {
@@ -16,8 +17,15 @@ module.exports = () => {
         next()
     })
 
+
+    // Routes
+
+    // TODO - Import routes from './routes/xxx'
+
     server.post('/speech', (req, res, next) => {
         if (req.body.text && req.body.text !== '') {
+            // TODO - Check if the speech exist into the db
+
             let speechService = new SpeechService()
             speechService.setSubscriptionKey(accessKey)
             speechService.refreshAccessToken()
