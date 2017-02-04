@@ -3,20 +3,20 @@ const util = require('util')
 const fs = require('fs')
 const streamBuffers = require("stream-buffers")
 
-const Result = require('./result')
+const responses = require('../common/responses')
 
-module.exports = class SpeechService {
+module.exports = class TTSService {
 
     // Note: Error 403 - Need to regenerate token JWT
 
-    constructor() {
+    constructor(subscriptionKey) {
         this.accessToken = null,
         this.textToSynthesized = '',
         this.API = {
             token: {
                 url: 'https://api.cognitive.microsoft.com/sts/v1.0/issueToken',
                 headers: {
-                    'Ocp-Apim-Subscription-Key': 'API_ACCESS_KEY'
+                    'Ocp-Apim-Subscription-Key': subscriptionKey
                 }
             },
             client: {
@@ -35,6 +35,7 @@ module.exports = class SpeechService {
         this.ssmlTemplate = `<speak version="1.0" xml:lang="fr-FR"><voice xml:lang="fr-FR" xml:gender="Male" name="Microsoft Server Speech Text to Speech Voice (fr-FR, Paul, Apollo)">%s</voice></speak>`
     }
 
+    // TODO - Delete this later
     setSubscriptionKey(key) {
         this.API.token.headers['Ocp-Apim-Subscription-Key'] = key
     }
@@ -94,14 +95,14 @@ module.exports = class SpeechService {
             if (response.statusCode === 200) {
                 // Audio to base64
                 let data = wStreamBuff.getContents().toString('base64')
-                callback(new Result(true, data))
+                callback(new responses.Response(data))
             }
             else if (response.statusCode === 403) {
                 this.refreshAccessToken()
                 this.textToSpeech(this.textToSynthesized)
             }
             else {
-                callback(new Result(false, null))
+                callback(new responses.ResponseError('TTS API error'))
             }
         }).pipe(wStreamBuff)
     }

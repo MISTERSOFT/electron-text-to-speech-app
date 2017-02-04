@@ -1,5 +1,6 @@
-const responses = require('../tools/responses')
+const responses = require('../../common/responses')
 const Categorie = require('../models/categorie.model')
+const Tools = require('../../common/tools')
 
 /**
  * Class that manage Categorie table
@@ -14,6 +15,9 @@ module.exports = class CategorieTable {
      * @param {Categorie} model - Categorie model
      */
     static add(model) {
+        // Generate ID
+        model._id = 'categorie/' + Tools.newUUID()
+
         return this.db.put(model).then((result) => {
             if (result.ok) {
                 console.log('categorie add', result)
@@ -66,9 +70,16 @@ module.exports = class CategorieTable {
      * @param {Categorie} model - The Categorie model updated
      */
     static update(model) {
+        // Find old values and get _rev value
+        let find = null
+        this.find(model._id).then(data => find = data.result)
+        model._rev = find._rev
+
         return this.db.put(model).then((result) => {
             console.log('categolrie updated !', result)
-            return Promise.resolve(new responses.Response(result))
+            this.find(result._id).then((data) => {
+                return Promise.resolve(new responses.Response(result))
+            })
         }).catch((err) => {
             console.log('Error happened, categorie couln\'t be updated !', err)
             return Promise.reject(new responses.ResponseError(err))

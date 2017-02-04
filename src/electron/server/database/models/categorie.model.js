@@ -4,12 +4,12 @@
 module.exports = class Categorie {
     constructor(data) {
         if (arguments.length === 0) {
-            this.id = null
+            this._id = null
             this._rev = null
             this.title = null
         }
         else {
-            this.id = data._id
+            this._id = data._id
             this._rev = data._rev
             this.title = data.title
         }
@@ -20,10 +20,10 @@ module.exports = class Categorie {
      * @returns {String} UUID
      */
     get _id() {
-        return this.id
+        return this._id
     }
-    set _id(_id) {
-        this.id = _id
+    set _id(id) {
+        this._id = id
     }
 
     // Rev

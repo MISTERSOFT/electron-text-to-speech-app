@@ -1,19 +1,106 @@
-const router = require('express').Router()
+const categorieRoutes = require('express').Router()
 
-router.get('/:id', (req, res, next) => {
-    // TODO
+const responses = require('../common/responses')
+const CategorieTable = require('../database/tables/categorie.table')
+const Categorie = require('../database/models/categorie.model')
+const CategorieConverter = require('../dto/converters/categorie.converter')
+const Tools = require('../common/tools')
+
+/**
+ * Get all categories
+ */
+categorieRoutes.get('/', (req, res, next) => {
+    CategorieTable.findAll().then((data) => {
+        data.map(c => {
+            c = CategorieConverter.toDTO(c)
+        })
+
+        res.status(200)
+            .type('json')
+            .end(JSON.stringify(data));
+    })
 })
 
-router.post('/', (req, res, next) => {
-    // TODO
+/**
+ * Get a categorie
+ */
+categorieRoutes.get('/:id', (req, res, next) => {
+    let id = req.params.id || null
+
+    if (id !== null) {
+        CategorieTable.find(id).then((data) => {
+            data = CategorieConverter.toDTO(data)
+
+            res.status(200)
+                .type('json')
+                .end(JSON.stringify(data));
+        })
+    }
+    else {
+        res.status(400).end(new responses.ResponseError('Invalid request, params are empty'));
+    }
 })
 
-router.put('/', (req, res, next) => {
-    // TODO
+/**
+ * Add a categorie
+ */
+categorieRoutes.post('/', (req, res, next) => {
+    let categ = req.body.categorie || null
+
+    if (categ !== null) {
+        let model = CategorieConverter.toEntity(categ)
+
+        CategorieTable.add(model).then((data) => {
+            data = CategorieConverter.toDTO(data)
+
+            res.status(200)
+                .type('json')
+                .end(JSON.stringify(data));
+        })
+    }
+    else {
+        res.status(400).end(new responses.ResponseError('Invalid request, body is empty'));
+    }
 })
 
-router.delete('/:id', (req, res, next) => {
-    // TODO
+/**
+ * Update a categorie
+ */
+categorieRoutes.put('/', (req, res, next) => {
+    let categ = req.body.categorie || null
+
+    if (categ !== null) {
+        let model = CategorieConverter.toEntity(categ)
+
+        CategorieTable.add(model).then((data) => {
+            data = CategorieConverter.toDTO(data)
+
+            res.status(200)
+                .type('json')
+                .end(JSON.stringify(data));
+        })
+    }
+    else {
+        res.status(400).end(new responses.ResponseError('Invalid request, body is empty'));
+    }
 })
 
-module.exports = router
+/**
+ * Delete a categorie
+ */
+categorieRoutes.delete('/:id', (req, res, next) => {
+    let id = req.params.id || null
+
+    if (id !== null) {
+        CategorieTable.delete(id).then((result) => {
+            res.status(200)
+                .type('json')
+                .end(JSON.stringify(result));
+        })
+    }
+    else {
+        res.status(400).end(new responses.ResponseError('Invalid request, params are empty'));
+    }
+})
+
+module.exports = categorieRoutes

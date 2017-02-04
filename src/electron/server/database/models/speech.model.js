@@ -4,7 +4,7 @@
 module.exports = class Speech {
     constructor(data) {
         if (arguments.length === 0) {
-            this.id = null
+            this._id = null
             this._rev = null
             this.text = null
             this.textBase64 = null
@@ -12,7 +12,7 @@ module.exports = class Speech {
             this.categorieId = null
         }
         else {
-            this.id = data._id
+            this._id = data._id
             this._rev = data._rev
             this.text = data.text
             this.textBase64 = data.textBase64

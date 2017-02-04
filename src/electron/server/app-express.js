@@ -3,10 +3,6 @@ module.exports = () => {
     const server = express()
     const bodyParser = require('body-parser')
 
-    // my files
-    const SpeechService = require('./speechService.js')
-    const accessKey = require('./load.js').accessTokenAPI()
-
     // Middlewares
     server.use(bodyParser.urlencoded({extended: true}))
     server.use(bodyParser.json())
@@ -17,26 +13,11 @@ module.exports = () => {
         next()
     })
 
-
     // Routes
+    server.use('/speech', require('./routes/speech.routes'))
+    server.use('/categorie', require('./routes/categorie.routes'))
 
-    // TODO - Import routes from './routes/xxx'
-
-    server.post('/speech', (req, res, next) => {
-        if (req.body.text && req.body.text !== '') {
-            // TODO - Check if the speech exist into the db
-
-            let speechService = new SpeechService()
-            speechService.setSubscriptionKey(accessKey)
-            speechService.refreshAccessToken()
-            speechService.textToSpeech(req.body.text, (result) => {
-                res.status(200)
-                    .type('json')
-                    .end(JSON.stringify(result))
-            })
-        }
-    })
-
+    // Start server
     server.listen(3002, () => {
         console.log('Server is running at http://localhost:3002/')
     })

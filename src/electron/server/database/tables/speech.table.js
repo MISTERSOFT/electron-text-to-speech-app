@@ -1,5 +1,6 @@
-const responses = require('../tools/responses')
+const responses = require('../../common/responses')
 const Speech = require('../models/speech.model')
+const Tools = require('../../common/tools')
 
 /**
  * Class that manage Speech table
@@ -14,6 +15,9 @@ module.exports = class SpeechTable {
      * @param {Speech} model - Speech model
      */
     static add(model) {
+        // Generate ID
+        model._id = 'speech/' + Tools.newUUID()
+
         return this.db.put(model).then((result) => {
             if (result.ok) {
                 console.log('speech add', result)
@@ -70,9 +74,16 @@ module.exports = class SpeechTable {
      * @param {Speech} model - The Speech model updated
      */
     static update(model) {
+        // Find old values and get _rev value
+        let find = null
+        this.find(model._id).then(data => find = data.result)
+        model._rev = find._rev
+
         return this.db.put(model).then((result) => {
             console.log('speech updated !', result)
-            return Promise.resolve(new responses.Response(result))
+            this.find(result._id).then((data) => {
+                return Promise.resolve(new responses.Response(result))
+            })
         }).catch((err) => {
             console.log('Error happened, speech couln\'t be updated !', err)
             return Promise.reject(new responses.ResponseError(err))
@@ -102,7 +113,7 @@ module.exports = class SpeechTable {
     static search(opts) {
         return this.db.find(opts).then((result) => {
             console.log('search success !', result)
-            return Promise.resolve(new responses.Response(result))
+            return Promise.resolve(new responses.Response(result.docs))
         }).catch((err) => {
             console.log('Search failed !', err)
             return Promise.reject(new responses.ResponseError(err))

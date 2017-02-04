@@ -20,11 +20,8 @@ module.exports = class CategorieConverter {
         let entity = new Categorie()
 
         if (dto !== null || dto !== undefined) {
-            CategorieTable(Database.getInstance()).find(dto.id).then((data) => {
-                entity._id = 'categorie/' + dto.id
-                entity.title = dto.title
-                entity._rev = data.result._rev
-            })
+            entity._id = 'categorie/' + dto.id
+            entity.title = dto.title
         }
 
         return entity
