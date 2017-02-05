@@ -1,9 +1,11 @@
 const speechRoutes = require('express').Router()
 
+// const Database = require('../database/database')
 const TTSService = require('../services/tts.service')
 const accessKey = require('../load').accessTokenAPI()
 const responses = require('../common/responses')
-const SpeechTable = require('../database/tables/speech.table')
+let SpeechTable = require('../database/tables/speech.table')
+SpeechTable = new SpeechTable()
 const Speech = require('../database/models/speech.model')
 const SpeechConverter = require('../dto/converters/speech.converter')
 const Tools = require('../common/tools')
@@ -106,7 +108,8 @@ speechRoutes.delete('/:id', (req, res, next) => {
 })
 
 /**
- * Call this route only when you want to use the Microsoft TTS API
+ * Call this route only when you want to use the Microsoft TTS API, if the text to
+ * synthetize exist into the database, we'll return it
  */
 speechRoutes.post('/cognitive-api', (req, res, next) => {
     let text = req.body.text || null
@@ -142,10 +145,14 @@ speechRoutes.post('/cognitive-api', (req, res, next) => {
                             model.textBase64 = Tools.toBase64(text)
                             model.audio = audio
 
-                            SpeechTable.add(model).then((response) => {
-                                res.status(200)
-                                    .type('json')
-                                    .end(JSON.stringify(response))
+                            // Add the model
+                            SpeechTable.add(model).then((addResponse) => {
+                                // Find the model added and return it
+                                SpeechTable.find(addResponse._id).then((findResponse) => {
+                                    res.status(200)
+                                        .type('json')
+                                        .end(JSON.stringify(findResponse))
+                                })
                             })
                         }
                     })

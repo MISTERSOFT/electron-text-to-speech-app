@@ -1,3 +1,7 @@
+const PouchDB = require('pouchdb')
+PouchDB.plugin(require('pouchdb-find'))
+
+const CONSTANTS = require('../../common/constants')
 const responses = require('../../common/responses')
 const Speech = require('../models/speech.model')
 const Tools = require('../../common/tools')
@@ -6,15 +10,15 @@ const Tools = require('../../common/tools')
  * Class that manage Speech table
  */
 module.exports = class SpeechTable {
-    constructor(dbInstance) {
-        this.db = dbInstance
+    constructor() {
+        this.db = new PouchDB(CONSTANTS.DATABASE_NAME)
     }
 
     /**
      * Insert a Speech
      * @param {Speech} model - Speech model
      */
-    static add(model) {
+    add(model) {
         // Generate ID
         model._id = 'speech/' + Tools.newUUID()
 
@@ -33,7 +37,7 @@ module.exports = class SpeechTable {
      * Fetch one speech
      * @param {String} id - ID of the Speech
      */
-    static find(id) {
+    find(id) {
         return this.db.get(id).then((doc) => {
             if (doc) {
                 console.log('speech fetched !', doc)
@@ -48,7 +52,7 @@ module.exports = class SpeechTable {
     /**
      * Fetch all speeches
      */
-    static findAll() {
+    findAll() {
         return this.db.allDocs({
             include_docs: true,
             startkey: type,
@@ -73,7 +77,7 @@ module.exports = class SpeechTable {
      * Update a Speech
      * @param {Speech} model - The Speech model updated
      */
-    static update(model) {
+    update(model) {
         // Find old values and get _rev value
         let find = null
         this.find(model._id).then(data => find = data.result)
@@ -94,7 +98,7 @@ module.exports = class SpeechTable {
      * Delete a Speech
      * @param {String} id - ID of the Speech
      */
-    static delete(id) {
+    delete(id) {
         return this.db.get(id).then((doc) => {
             return this.db.remove(doc)
         }).then((result) => {
@@ -110,7 +114,8 @@ module.exports = class SpeechTable {
      * Search everything
      * @param {Object} opts - Search options, see https://github.com/nolanlawson/pouchdb-find
      */
-    static search(opts) {
+    search(opts) {
+        console.log('pouchdb = ', this.db)
         return this.db.find(opts).then((result) => {
             console.log('search success !', result)
             return Promise.resolve(new responses.Response(result.docs))

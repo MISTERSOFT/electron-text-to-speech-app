@@ -1,5 +1,6 @@
 const categorieRoutes = require('express').Router()
 
+const Database = require('../database/database')
 const responses = require('../common/responses')
 const CategorieTable = require('../database/tables/categorie.table')
 const Categorie = require('../database/models/categorie.model')

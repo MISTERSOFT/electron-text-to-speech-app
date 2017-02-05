@@ -95,14 +95,14 @@ module.exports = class TTSService {
             if (response.statusCode === 200) {
                 // Audio to base64
                 let data = wStreamBuff.getContents().toString('base64')
-                callback(new responses.Response(data))
+                setImmediate(callback(new responses.Response(data)))
             }
             else if (response.statusCode === 403) {
                 this.refreshAccessToken()
-                this.textToSpeech(this.textToSynthesized)
+                this.textToSpeech(this.textToSynthesized, callback)
             }
             else {
-                callback(new responses.ResponseError('TTS API error'))
+                setImmediate(callback(new responses.ResponseError('TTS API error')))
             }
         }).pipe(wStreamBuff)
     }

@@ -14,7 +14,7 @@ module.exports = class CategorieTable {
      * Insert a categorie
      * @param {Categorie} model - Categorie model
      */
-    static add(model) {
+    add(model) {
         // Generate ID
         model._id = 'categorie/' + Tools.newUUID()
 
@@ -33,7 +33,7 @@ module.exports = class CategorieTable {
      * Fetch one categorie
      * @param {String} id - ID of the categorie
      */
-    static find(id) {
+    find(id) {
         return this.db.get(id).then((doc) => {
             if (doc) {
                 console.log('categorie fetched !', doc)
@@ -48,7 +48,7 @@ module.exports = class CategorieTable {
     /**
      * Fetch all categories
      */
-    static findAll() {
+    findAll() {
         return this.db.allDocs({
             include_docs: true,
             startkey: type,
@@ -69,7 +69,7 @@ module.exports = class CategorieTable {
      * Update a categorie
      * @param {Categorie} model - The Categorie model updated
      */
-    static update(model) {
+    update(model) {
         // Find old values and get _rev value
         let find = null
         this.find(model._id).then(data => find = data.result)
@@ -90,7 +90,7 @@ module.exports = class CategorieTable {
      * Delete a categorie
      * @param {String} id - ID of the categorie
      */
-    static delete(id) {
+    delete(id) {
         return this.db.get(id).then((doc) => {
             return this.db.remove(doc)
         }).then((result) => {

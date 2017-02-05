@@ -13,8 +13,8 @@ module.exports = class Database {
      * Get database instance
      * @return PouchDB instance
      */
-    static getInstance() {
-        if (this.instance === null ||this.instance === undefined) {
+    getInstance() {
+        if (this.instance === null || this.instance === undefined) {
             this.instance = new PouchDB('speech')
         }
         return this.instance
@@ -23,7 +23,7 @@ module.exports = class Database {
     /**
      * Close open connection and free up memory
      */
-    static close() {
+    close() {
         if (this.instance !== null ||this.instance !== undefined) {
             this.instance.close()
         }

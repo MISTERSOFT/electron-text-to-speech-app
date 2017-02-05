@@ -6,3 +6,6 @@ src/electron/public/
 
 # config file
 src/electron/config.json
+
+# ignore database folder
+speech_db/

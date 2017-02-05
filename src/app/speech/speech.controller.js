@@ -28,15 +28,15 @@
 
         function speech() {
             if (vm.text !== '') {
-                console.log(vm.text);
-                // SpeechService.textToSpeech(vm.text).then(function(result) {
-                //     if (result.success) {
-                //         vm.audio = result.data;
-                //     }
-                //     else {
-                //         // TODO - show logger
-                //     }
-                // });
+                console.log('text = ', vm.text);
+                SpeechService.textToSpeech(vm.text).then(function(result) {
+                    if (result.success) {
+                        vm.audio = result.data;
+                    }
+                    else {
+                        // TODO - show logger
+                    }
+                });
             }
         }
     }
