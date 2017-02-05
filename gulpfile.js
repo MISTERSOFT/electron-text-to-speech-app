@@ -17,6 +17,7 @@ gulp.task('js', function() {
         // nodeModulesPath + 'bootstrap/dist/js/bootstrap.js',
         nodeModulesPath + 'angular/angular.js',
         nodeModulesPath + 'angular-route/angular-route.js',
+        nodeModulesPath + 'angular-audio/app/angular.audio.js',
         appFilePath + 'app/**/*.module.js',
         appFilePath + 'app/**/*.js',
         appFilePath + 'app/**/**/*.js'

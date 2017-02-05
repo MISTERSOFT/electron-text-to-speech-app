@@ -22,7 +22,7 @@
 
         function success(res) {
             console.log('response api :', res);
-            return res;
+            return res.data;
         }
 
         function error(err) {

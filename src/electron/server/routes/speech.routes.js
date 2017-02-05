@@ -117,18 +117,16 @@ speechRoutes.post('/cognitive-api', (req, res, next) => {
         // Check if the speech exist into the db
         SpeechTable.search({
             selector: {
-                textBase64: text
+                textBase64: Tools.toBase64(text)
             }
         }).then((data) => {
             if (data.success) {
-                // If exist, find it
+                // If exist, return it
                 if (data.result.length > 0) {
-                    SpeechTable.find(data.success[0]._id).then((result) => {
-                        result = SpeechConverter.toDTO(data)
-                        res.status(200)
-                            .type('json')
-                            .end(JSON.stringify(result));
-                    })
+                    let result = SpeechConverter.toDTO(data.result[0])
+                    res.status(200)
+                        .type('json')
+                        .end(JSON.stringify(result));
                 }
                 else {
                     // Else, use TTS API
@@ -136,6 +134,7 @@ speechRoutes.post('/cognitive-api', (req, res, next) => {
                     // ttsService.setSubscriptionKey(accessKey)
                     // ttsService.refreshAccessToken()
                     ttsService.textToSpeech(text, (result) => {
+                        
                         if (result.success) {
                             // Add the audio encoded in Base64 into the database
                             let audio = result.result
@@ -148,7 +147,7 @@ speechRoutes.post('/cognitive-api', (req, res, next) => {
                             // Add the model
                             SpeechTable.add(model).then((addResponse) => {
                                 // Find the model added and return it
-                                SpeechTable.find(addResponse._id).then((findResponse) => {
+                                SpeechTable.find(addResponse.result.id).then((findResponse) => {
                                     res.status(200)
                                         .type('json')
                                         .end(JSON.stringify(findResponse))

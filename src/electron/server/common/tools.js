@@ -1,4 +1,4 @@
-const Buffer = require('buffer')
+const Buffer = require('buffer').Buffer
 const uuid = require('node-uuid')
 
 module.exports = {
@@ -6,7 +6,7 @@ module.exports = {
      * Encode a string in Base64
      */
     toBase64 : (str) => {
-        return Buffer.from(str, 'base64')
+        return Buffer.from(str).toString('base64')
     },
     /**
      * Generate a new UUID (based on time)

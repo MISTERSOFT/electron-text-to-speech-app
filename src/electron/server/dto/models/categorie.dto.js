@@ -7,19 +7,19 @@ module.exports = class CategorieDTO {
         this.title = null
     }
 
-    // Id
-    get id() {
-        return this.id
-    }
-    set id(_id) {
-        this.id = _id
-    }
+    // // Id
+    // get id() {
+    //     return this.id
+    // }
+    // set id(_id) {
+    //     this.id = _id
+    // }
 
-    // Tite
-    get title() {
-        return this.title
-    }
-    set title(_title) {
-        this.title = _title
-    }
+    // // Tite
+    // get title() {
+    //     return this.title
+    // }
+    // set title(_title) {
+    //     this.title = _title
+    // }
 }

@@ -15,31 +15,31 @@ module.exports = class Categorie {
         }
     }
 
-    /**
-     * ID (UUID)
-     * @returns {String} UUID
-     */
-    get _id() {
-        return this._id
-    }
-    set _id(id) {
-        this._id = id
-    }
+    // /**
+    //  * ID (UUID)
+    //  * @returns {String} UUID
+    //  */
+    // get _id() {
+    //     return this._id
+    // }
+    // set _id(id) {
+    //     this._id = id
+    // }
 
-    // Rev
-    get _rev() {
-        return this._rev
-    }
-    set _rev(rev) {
-        this._rev = rev
-    }
+    // // Rev
+    // get _rev() {
+    //     return this._rev
+    // }
+    // set _rev(rev) {
+    //     this._rev = rev
+    // }
 
-    // Title
-    get title() {
-        return this.title
-    }
-    set title(_title) {
-        this.title = _title
-    }
+    // // Title
+    // get title() {
+    //     return this.title
+    // }
+    // set title(_title) {
+    //     this.title = _title
+    // }
 
 }

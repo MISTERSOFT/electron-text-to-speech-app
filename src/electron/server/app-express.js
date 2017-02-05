@@ -16,6 +16,7 @@ module.exports = () => {
     // Routes
     server.use('/speech', require('./routes/speech.routes'))
     server.use('/categorie', require('./routes/categorie.routes'))
+    server.use('/dev', require('./routes/dev.routes'))
 
     // Start server
     server.listen(3002, () => {

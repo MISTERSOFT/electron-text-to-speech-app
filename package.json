@@ -8,7 +8,7 @@
     "start": "npm run build-dev && npm run serve",
     "build-dev": "gulp build-dev",
     "serve": "electron ./src/electron/main.js",
-    "rebuild" : "electron-rebuild -f"
+    "rebuild": "electron-rebuild -f"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "angular": "1.6.1",
+    "angular-audio": "1.7.3",
     "angular-route": "1.6.1",
     "body-parser": "1.16.0",
     "bootstrap": "3.3.7",

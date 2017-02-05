@@ -5,8 +5,8 @@
         .module('app.speech')
         .controller('SpeechController', SpeechController);
 
-    SpeechController.inject = ['SpeechService'];
-    function SpeechController(SpeechService) {
+    SpeechController.inject = ['SpeechService', 'ngAudio'];
+    function SpeechController(SpeechService, ngAudio) {
         var vm = this;
 
         vm.text = '';
@@ -28,10 +28,10 @@
 
         function speech() {
             if (vm.text !== '') {
-                console.log('text = ', vm.text);
-                SpeechService.textToSpeech(vm.text).then(function(result) {
-                    if (result.success) {
-                        vm.audio = result.data;
+                SpeechService.textToSpeech(vm.text).then(function(response) {
+                    if (response.success) {
+                        // Play sound directly
+                        ngAudio.load(response.result.audio).play();
                     }
                     else {
                         // TODO - show logger
