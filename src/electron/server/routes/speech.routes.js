@@ -5,7 +5,7 @@ const TTSService = require('../services/tts.service')
 const accessKey = require('../load').accessTokenAPI()
 const responses = require('../common/responses')
 let SpeechTable = require('../database/tables/speech.table')
-SpeechTable = new SpeechTable()
+    SpeechTable = new SpeechTable()
 const Speech = require('../database/models/speech.model')
 const SpeechConverter = require('../dto/converters/speech.converter')
 const Tools = require('../common/tools')
@@ -126,7 +126,7 @@ speechRoutes.post('/cognitive-api', (req, res, next) => {
                     let result = SpeechConverter.toDTO(data.result[0])
                     res.status(200)
                         .type('json')
-                        .end(JSON.stringify(result));
+                        .end(JSON.stringify(new responses.Response(result)));
                 }
                 else {
                     // Else, use TTS API

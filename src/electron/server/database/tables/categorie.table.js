@@ -1,3 +1,7 @@
+const PouchDB = require('pouchdb')
+PouchDB.plugin(require('pouchdb-find'))
+
+const CONSTANTS = require('../../common/constants')
 const responses = require('../../common/responses')
 const Categorie = require('../models/categorie.model')
 const Tools = require('../../common/tools')
@@ -7,7 +11,7 @@ const Tools = require('../../common/tools')
  */
 module.exports = class CategorieTable {
     constructor(dbInstance) {
-        this.db = dbInstance
+        this.db = new PouchDB(CONSTANTS.DATABASE_NAME)
     }
 
     /**
