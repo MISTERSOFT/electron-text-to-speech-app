@@ -6,6 +6,7 @@
         'app.layout',
         'app.shared',
         'app.speech',
-        'app.favorite'
+        'app.favorite',
+        'app.categorie'
     ]);
 })();

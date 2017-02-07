@@ -25,6 +25,7 @@
 
         vm.isSpeechPage = isSpeechPage;
         vm.isFavoritePage = isFavoritePage;
+        vm.isCategoriePage = isCategoriePage;
 
         activate();
 
@@ -45,6 +46,10 @@
 
         function isFavoritePage() {
             return vm.currentUrl === '/favorite';
+        }
+
+        function isCategoriePage() {
+            return vm.currentUrl === '/categorie';
         }
     }
 })();

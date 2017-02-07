@@ -12,6 +12,11 @@
                 controllerAs: 'vm',
                 templateUrl: 'templates/speech/speech.controller.html'
             })
+            .when('/categorie', {
+                controller: 'CategorieController',
+                controllerAs: 'vm',
+                templateUrl: 'templates/categorie/categorie.controller.html'
+            })
             .when('/favorite', {
                 controller: 'FavoriteController',
                 controllerAs: 'vm',
