@@ -11,7 +11,7 @@
         var _url = 'http://localhost:3002/';
 
         // methods
-        this.getAllcategories = getAllcategories;
+        this.getAllCategories = getAllCategories;
         this.getCategorie = getCategorie;
         this.addCategorie = addCategorie;
         this.updateCategorie = updateCategorie;
@@ -28,7 +28,7 @@
             console.log(err);
         }
 
-        function getAllcategories() {
+        function getAllCategories() {
             return $http.get(_url + 'categorie')
                 .then(success)
                 .catch(error);

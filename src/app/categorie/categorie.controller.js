@@ -22,7 +22,8 @@
         ////////////////
 
         function activate() {
-            CategorieController.getAllcategories().then(function (result) {
+            console.log(CategorieService);
+            CategorieService.getAllCategories().then(function (result) {
                 // TODO
             });
         }

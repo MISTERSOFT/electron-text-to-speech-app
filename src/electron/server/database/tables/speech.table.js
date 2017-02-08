@@ -1,6 +1,8 @@
-const PouchDB = require('pouchdb')
-PouchDB.plugin(require('pouchdb-find'))
+// const PouchDB = require('pouchdb')
+// PouchDB.plugin(require('pouchdb-find'))
 
+let Database = require('../database')
+    Database = new Database()
 const CONSTANTS = require('../../common/constants')
 const responses = require('../../common/responses')
 const Speech = require('../models/speech.model')
@@ -11,7 +13,8 @@ const Tools = require('../../common/tools')
  */
 module.exports = class SpeechTable {
     constructor() {
-        this.db = new PouchDB(CONSTANTS.DATABASE_NAME)
+        // this.db = new PouchDB(CONSTANTS.DATABASE_NAME)
+        this.db = Database.getInstance()
     }
 
     /**
@@ -59,10 +62,6 @@ module.exports = class SpeechTable {
             endkey: 'speech\\' + '\uffff'
         }).then((result) => {
             console.log('All speeches fetched !', result)
-            // let data = []
-            // for (let i in result.rows) {
-            //     data.push(new Speech(result.rows[i].doc))
-            // }
             result.rows.map((s) => {
                 return new Speech(s.doc)
             })

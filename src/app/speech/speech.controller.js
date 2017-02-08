@@ -11,6 +11,7 @@
 
         vm.text = '';
         vm.audio = null;
+        vm.disableSpeechBtn = false;
 
         // methods
         vm.clearText = clearText;
@@ -28,6 +29,7 @@
 
         function speech() {
             if (vm.text !== '') {
+                speechBtnState();
                 SpeechService.textToSpeech(vm.text).then(function(response) {
                     if (response.success) {
                         // Play sound directly
@@ -36,8 +38,13 @@
                     else {
                         // TODO - show logger
                     }
+                    speechBtnState();
                 });
             }
+        }
+
+        function speechBtnState() {
+            vm.disableSpeechBtn = !vm.disableSpeechBtn;
         }
     }
 })();

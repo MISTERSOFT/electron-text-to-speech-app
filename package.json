@@ -50,6 +50,7 @@
     "node-uuid": "1.4.7",
     "pouchdb": "6.1.1",
     "pouchdb-find": "^0.10.5",
+    "relational-pouch": "^1.4.5",
     "stream-buffers": "3.0.1"
   }
 }

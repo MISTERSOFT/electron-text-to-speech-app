@@ -34,15 +34,18 @@
          * @param {string} textToSynthesized - Text to synthesized
          */
         function textToSpeech(textToSynthesized) {
-            return $http.get(_url + 'dev/audio')
-                .then(success)
-                .catch(error);
-            // var body = {
-            //     text: textToSynthesized
-            // };
-            // return $http.post(_url + 'speech/cognitive-api', body)
+            // route to test audio 
+            // return $http.get(_url + 'dev/audio')
             //     .then(success)
             //     .catch(error);
+
+            // real route
+            var body = {
+                text: textToSynthesized
+            };
+            return $http.post(_url + 'speech/cognitive-api', body)
+                .then(success)
+                .catch(error);
         }
 
         function getAllSpeeches() {
