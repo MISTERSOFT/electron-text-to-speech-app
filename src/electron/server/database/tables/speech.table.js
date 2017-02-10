@@ -24,16 +24,21 @@ module.exports = class SpeechTable {
     add(model) {
         // Generate ID
         model._id = 'speech/' + Tools.newUUID()
-
-        return this.db.put(model).then((result) => {
-            if (result.ok) {
-                console.log('speech add', result)
-                return Promise.resolve(new responses.Response(result))
-            }
-        }).catch((err) => {
-            console.log('speech add failed', err)
-            return Promise.reject(new responses.ResponseError(err))
+        return this.search({ selector: { title: 'Sans categorie' } }).then((data) => {
+            console.log('data ???', data)
+            model.categorieId = data.result[0]._id
+            console.log('model ???', model)
+            return this.db.put(model).then((result) => {
+                if (result.ok) {
+                    console.log('speech add', result)
+                    return Promise.resolve(new responses.Response(result))
+                }
+            }).catch((err) => {
+                console.log('speech add failed', err)
+                return Promise.reject(new responses.ResponseError(err))
+            })
         })
+
     }
 
     /**

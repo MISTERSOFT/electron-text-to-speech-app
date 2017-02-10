@@ -6,6 +6,7 @@ module.exports = class CategorieDTO {
         this.id = null
         this.title = null
         this.deletable = null
+        this.speeches = []
     }
 
     // // Id
