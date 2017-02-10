@@ -77,3 +77,11 @@ textarea.form-control {
     resize: none;
     font-size: 24px;
 }
+
+/*######## COMMON CSS #########*/
+.m20-top {
+    margin-top: 20px;
+}
+.m20-left {
+    margin-left: 20px;
+}

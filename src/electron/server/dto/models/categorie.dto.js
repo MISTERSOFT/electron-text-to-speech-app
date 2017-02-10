@@ -5,6 +5,7 @@ module.exports = class CategorieDTO {
     constructor() {
         this.id = null
         this.title = null
+        this.deletable = null
     }
 
     // // Id

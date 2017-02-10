@@ -15,6 +15,18 @@ module.exports = class CategorieTable {
     constructor(dbInstance) {
         // this.db = new PouchDB(CONSTANTS.DATABASE_NAME)
         this.db = Database.getInstance()
+        this.baseInit()
+    }
+
+    baseInit() {
+        let model = {_id: null, title: 'Sans categorie', deletable: false};
+        this.search({
+            selector: { title: model.title }
+        }).then((data) => {
+            if (data.result.length == 0) {
+                this.add(model);
+            }
+        })
     }
 
     /**
@@ -58,14 +70,16 @@ module.exports = class CategorieTable {
     findAll() {
         return this.db.allDocs({
             include_docs: true,
-            startkey: type,
-            endkey: 'categorie\\' + '\uffff'
+            startkey: 'categorie/',
+            endkey: 'categorie/\uffff'
         }).then((result) => {
             console.log('All categories fetched !', result)
-            result.rows.map((c) => {
-                return new Categorie(c.doc)
-            })
-            return new Promise.resolve(new responses.Response(result.rows))
+            if (result.rows.length > 0) {
+                result.rows.map((c) => {
+                    return new Categorie(c.doc)
+                })
+            }
+            return Promise.resolve(new responses.Response(result.rows))
         }).catch((err) => {
             console.log('Error happened, categories couln\'t be fetched !', err)
             return Promise.reject(new responses.ResponseError(err))
@@ -105,6 +119,20 @@ module.exports = class CategorieTable {
             return Promise.resolve(new responses.Response(result))
         }).catch((err) => {
             console.log('Error happened, categorie couln\'t be deleted !', err)
+            return Promise.reject(new responses.ResponseError(err))
+        })
+    }
+
+    /**
+     * Search everything
+     * @param {Object} opts - Search options, see https://github.com/nolanlawson/pouchdb-find
+     */
+    search(opts) {
+        return this.db.find(opts).then((result) => {
+            console.log('search success !', result)
+            return Promise.resolve(new responses.Response(result.docs))
+        }).catch((err) => {
+            console.log('Search failed !', err)
             return Promise.reject(new responses.ResponseError(err))
         })
     }

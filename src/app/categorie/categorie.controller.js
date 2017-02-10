@@ -5,12 +5,13 @@
         .module('app.categorie')
         .controller('CategorieController', CategorieController);
 
-    CategorieController.inject = ['SpeechService', 'CategorieService'];
-    function CategorieController(SpeechService, CategorieService) {
+    CategorieController.inject = ['SpeechService', 'CategorieService', '$q'];
+    function CategorieController(SpeechService, CategorieService, $q) {
         var vm = this;
         
         // properties
         vm.newCateg = '';
+        vm.categories = [];
 
         // methods
         vm.newCategorie = newCategorie;
@@ -22,19 +23,24 @@
         ////////////////
 
         function activate() {
-            console.log(CategorieService);
-            CategorieService.getAllCategories().then(function (result) {
-                // TODO
+            var promises = [
+                getAllCategories(),
+                getAllSpeeches()
+            ];
+            return $q.all(promises).then(function(res) {
+                console.log('all done');
             });
         }
 
         function newCategorie() {
             if (vm.newCateg !== '') {
                 var categModel = {
-                    title: vm.newCateg
+                    title: vm.newCateg,
+                    deletable: true
                 };
                 CategorieController.addCategorie(categModel).then(function (response) {
-                    // TODO
+                    vm.categories.push(response.result[0]);
+                    vm.newCateg = '';
                 });
             }
         }
@@ -52,6 +58,29 @@
                 };
             CategorieController.updateCategorie(categModel).then(function (response) {
                 // TODO
+            });
+        }
+
+        function getAllCategories() {
+            CategorieService.getAllCategories().then(function (res) {
+                if (res.success) {
+                    vm.categories = res.result;
+                }
+            });
+        }
+
+        function getAllSpeeches() {
+            SpeechService.getAllSpeeches().then(function (res) {
+                if (res.success) {
+                    var speeches = res.result;
+                    for (var i = 0; i < speeches.length; i++) {
+                        vm.categories[i].speeches = speeches.filter(function(speech, index) {
+                            if (vm.categories[i].id === speech.id) {
+                                return speech;
+                            }
+                        });
+                    }
+                }
             });
         }
     }

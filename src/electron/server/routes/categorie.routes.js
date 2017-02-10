@@ -2,7 +2,8 @@ const categorieRoutes = require('express').Router()
 
 const Database = require('../database/database')
 const responses = require('../common/responses')
-const CategorieTable = require('../database/tables/categorie.table')
+let CategorieTable = require('../database/tables/categorie.table')
+    CategorieTable = new CategorieTable()
 const Categorie = require('../database/models/categorie.model')
 const CategorieConverter = require('../dto/converters/categorie.converter')
 const Tools = require('../common/tools')
@@ -12,13 +13,16 @@ const Tools = require('../common/tools')
  */
 categorieRoutes.get('/', (req, res, next) => {
     CategorieTable.findAll().then((data) => {
-        data.map(c => {
-            c = CategorieConverter.toDTO(c)
-        })
+        let result = []
+        if (data.result.length > 0) {
+            data.result.map(c => {
+                result.push(CategorieConverter.toDTO(c.doc))
+            })
+        }
 
         res.status(200)
             .type('json')
-            .end(JSON.stringify(data));
+            .end(JSON.stringify(new responses.Response(result)));
     })
 })
 

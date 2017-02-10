@@ -7,11 +7,13 @@ module.exports = class Categorie {
             this._id = null
             this._rev = null
             this.title = null
+            this.deletable = null
         }
         else {
             this._id = data._id
             this._rev = data._rev
             this.title = data.title
+            this.deletable = data.deletable
         }
     }
 

@@ -11,6 +11,7 @@ module.exports = class CategorieConverter {
         if (entity !== null || entity !== undefined) {
             dto.id = entity._id.replace('categorie/', '')
             dto.title = entity.title
+            dto.deletable = entity.deletable
         }
 
         return dto
@@ -22,6 +23,7 @@ module.exports = class CategorieConverter {
         if (dto !== null || dto !== undefined) {
             entity._id = 'categorie/' + dto.id
             entity.title = dto.title
+            entity.deletable = dto.deletable
         }
 
         return entity

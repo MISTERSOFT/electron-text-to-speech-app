@@ -58,14 +58,14 @@ module.exports = class SpeechTable {
     findAll() {
         return this.db.allDocs({
             include_docs: true,
-            startkey: type,
-            endkey: 'speech\\' + '\uffff'
+            startkey: 'speech/',
+            endkey: 'speech/\uffff'
         }).then((result) => {
             console.log('All speeches fetched !', result)
             result.rows.map((s) => {
                 return new Speech(s.doc)
             })
-            return new Promise.resolve(new responses.Response(result.rows))
+            return Promise.resolve(new responses.Response(result.rows))
         }).catch((err) => {
             console.log('Error happened, speeches couln\'t be fetched !', err)
             return Promise.reject(new responses.ResponseError(err))
@@ -114,7 +114,6 @@ module.exports = class SpeechTable {
      * @param {Object} opts - Search options, see https://github.com/nolanlawson/pouchdb-find
      */
     search(opts) {
-        console.log('pouchdb = ', this.db)
         return this.db.find(opts).then((result) => {
             console.log('search success !', result)
             return Promise.resolve(new responses.Response(result.docs))

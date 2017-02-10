@@ -15,13 +15,16 @@ const Tools = require('../common/tools')
  */
 speechRoutes.get('/', (req, res, next) => {
     SpeechTable.findAll().then((data) => {
-        data.map((s) => {
-            s = SpeechConverter.toDTO(s)
-        })
+        let result = []
+        if (data.result.length > 0) {
+            data.result.map((s) => {
+                result.push(SpeechConverter.toDTO(s))
+            })
+        }
 
         res.status(200)
             .type('json')
-            .end(JSON.stringify(data));
+            .end(JSON.stringify(new responses.Response(result)));
     })
 })
 

@@ -8,10 +8,36 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="input-group input-group-lg">
-                    <input type="text" class="form-control input-lg" placeholder="New categorie">
+                    <input type="text" class="form-control input-lg" placeholder="New categorie" ng-model="vm.newCateg">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">Create</button>
+                        <button class="btn btn-default" type="button" ng-click="vm.newCategorie()">Create</button>
                     </span>
+                </div>
+            </div>
+        </div>
+        <div class="row m20-top">
+            <div class="col-lg-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Categories</div>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="categ in vm.categories">
+                            <span class="glyphicon glyphicon-remove pull-left text-danger" aria-hidden="true"></span>
+                            {{ categ.title }}
+                            <span class="glyphicon glyphicon-chevron-right pull-right m20-left" aria-hidden="true"></span>
+                            <span class="badge pull-right">42</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Sentences</div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            My sentences
+                            <span class="glyphicon glyphicon-volume-up pull-right" aria-hidden="true"></span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
