@@ -13,8 +13,8 @@ var cssBuildFile = 'build.css';
 
 gulp.task('js', function() {
     return gulp.src([
-        // nodeModulesPath + 'jquery/dist/jquery.js',
-        // nodeModulesPath + 'bootstrap/dist/js/bootstrap.js',
+        nodeModulesPath + 'jquery/jquery.js',
+        nodeModulesPath + 'bootstrap/dist/js/bootstrap.js',
         nodeModulesPath + 'angular/angular.js',
         nodeModulesPath + 'angular-route/angular-route.js',
         nodeModulesPath + 'angular-audio/app/angular.audio.js',
@@ -55,7 +55,7 @@ gulp.task('index', function() {
         .pipe(gulp.dest(distFolder));
 });
 
-gulp.task('build-dev', ['index', 'css', 'fonts', 'js', 'templates'], function() { 
+gulp.task('build-dev', ['index', 'css', 'fonts', 'js', 'templates'], function() {
     // Inject CSS and JS files into the index.html createed before
     return gulp.src(distFolder + 'index.html')
         .pipe(inject(gulp.src(distFolder + 'css/' + cssBuildFile), {relative: true}))

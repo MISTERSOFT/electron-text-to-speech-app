@@ -46,7 +46,7 @@
     "body-parser": "1.16.0",
     "bootstrap": "3.3.7",
     "express": "4.14.1",
-    "jquery": "3.1.1",
+    "jquery": "1.9.1",
     "node-uuid": "1.4.7",
     "pouchdb": "6.1.1",
     "pouchdb-find": "^0.10.5",

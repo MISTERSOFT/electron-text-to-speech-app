@@ -55,17 +55,14 @@ module.exports = class SpeechTable {
     findAll() {
         return this.db.allDocs({
             include_docs: true,
-            startkey: '',
+            startkey: 'speech',
             endkey: 'speech\\' + '\uffff'
         }).then((result) => {
             console.log('All speeches fetched !', result)
             let data = []
-            for (let i in result.rows) {
-                data.push(new Speech(result.rows[i].doc))
+            for (let s of result.rows) {
+                data.push(new Speech(s.doc))
             }
-            // result.rows.map((s) => {
-            //     return new Speech(s.doc)
-            // })
             return Promise.resolve(new responses.Response(data))
         }).catch((err) => {
             console.log('Error happened, speeches couln\'t be fetched !', err)

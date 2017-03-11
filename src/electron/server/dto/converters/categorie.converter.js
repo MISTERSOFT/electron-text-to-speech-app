@@ -12,6 +12,7 @@ module.exports = class CategorieConverter {
             dto.id = entity._id.replace('categorie/', '')
             dto.title = entity.title
             dto.lang = entity.lang
+            dto.deletable = entity.deletable
         }
 
         return dto
@@ -26,6 +27,7 @@ module.exports = class CategorieConverter {
                 categorie.id = entity._id.replace('categorie/', '')
                 categorie.title = entity.title
                 categorie.lang = entity.lang
+                categorie.deletable = entity.deletable
                 dtos.push(categorie)
             }
         }
@@ -40,6 +42,7 @@ module.exports = class CategorieConverter {
             entity._id = 'categorie/' + dto.id
             entity.title = dto.title
             entity.lang = dto.lang
+            entity.deletable = dto.deletable
         }
 
         return entity

@@ -1,6 +1,6 @@
 const PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-find'))
-PouchDB.plugin(require('relational-pouch'))
+// PouchDB.plugin(require('relational-pouch'))
 
 const CONSTANTS = require('../common/constants')
 

@@ -18,7 +18,8 @@ module.exports = class CategorieTable {
             if (data.result.length === 0) {
                 let model = new Categorie({
                     title: searchCateg,
-                    lang: 'fr'
+                    lang: 'fr',
+                    deletable: false
                 })
                 this.add(model)
             }
@@ -67,7 +68,7 @@ module.exports = class CategorieTable {
     findAll() {
         return this.db.allDocs({
             include_docs: true,
-            startkey: '',
+            startkey: 'categorie',
             endkey: 'categorie\\' + '\uffff'
         }).then((result) => {
             console.log('All categories fetched !', result)

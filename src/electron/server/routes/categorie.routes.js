@@ -2,7 +2,7 @@ const categorieRoutes = require('express').Router()
 
 const Database = require('../database/database')
 const responses = require('../common/responses')
-let  CategorieTable = require('../database/tables/categorie.table')
+let CategorieTable = require('../database/tables/categorie.table')
     CategorieTable = new CategorieTable()
 const Categorie = require('../database/models/categorie.model')
 const CategorieConverter = require('../dto/converters/categorie.converter')
