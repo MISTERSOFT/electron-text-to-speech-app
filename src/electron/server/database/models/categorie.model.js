@@ -7,41 +7,15 @@ module.exports = class Categorie {
             this._id = null
             this._rev = null
             this.title = null
+            this.lang = null
             this.deletable = null
         }
         else {
             this._id = data._id
             this._rev = data._rev
             this.title = data.title
+            this.lang = data.lang
             this.deletable = data.deletable
         }
     }
-
-    // /**
-    //  * ID (UUID)
-    //  * @returns {String} UUID
-    //  */
-    // get _id() {
-    //     return this._id
-    // }
-    // set _id(id) {
-    //     this._id = id
-    // }
-
-    // // Rev
-    // get _rev() {
-    //     return this._rev
-    // }
-    // set _rev(rev) {
-    //     this._rev = rev
-    // }
-
-    // // Title
-    // get title() {
-    //     return this.title
-    // }
-    // set title(_title) {
-    //     this.title = _title
-    // }
-
 }

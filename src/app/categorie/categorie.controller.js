@@ -8,7 +8,7 @@
     CategorieController.inject = ['SpeechService', 'CategorieService', '$q'];
     function CategorieController(SpeechService, CategorieService, $q) {
         var vm = this;
-        
+
         // properties
         vm.newCateg = '';
         vm.categories = [];
@@ -46,18 +46,18 @@
         }
 
         function deleteCategorie(id) {
-            CategorieController.deleteCategorie(id).then(function (response) {
-                // TODO
+            CategorieService.deleteCategorie(id).then(function (response) {
+                // TODO:
             });
         }
 
         function rename() {
-            // TODO
+            // TODO:
             var categModel = {
-                    title: ''
-                };
-            CategorieController.updateCategorie(categModel).then(function (response) {
-                // TODO
+                title: ''
+            };
+            CategorieService.updateCategorie(categModel).then(function (response) {
+                // TODO:
             });
         }
 

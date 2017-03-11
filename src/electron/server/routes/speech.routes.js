@@ -137,7 +137,6 @@ speechRoutes.post('/cognitive-api', (req, res, next) => {
                     // ttsService.setSubscriptionKey(accessKey)
                     // ttsService.refreshAccessToken()
                     ttsService.textToSpeech(text, (result) => {
-                        
                         if (result.success) {
                             // Add the audio encoded in Base64 into the database
                             let audio = result.result

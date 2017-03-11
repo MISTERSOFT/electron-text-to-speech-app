@@ -17,6 +17,7 @@ module.exports = class SpeechConverter {
             dto.text = entity.text
             dto.textBase64 = entity.textBase64
             dto.audio = entity.audio
+            dto.lang = entity.lang
             dto.categorieId = entity.categorieId
         }
 
@@ -36,6 +37,7 @@ module.exports = class SpeechConverter {
             entity.text = dto.text
             entity.textBase64 = dto.textBase64
             entity.audio = dto.audio
+            entity.lang = dto.lang
             entity.categorieId = dto.categorieId
         }
 

@@ -1,8 +1,6 @@
-// const PouchDB = require('pouchdb')
-// PouchDB.plugin(require('pouchdb-find'))
+const PouchDB = require('pouchdb')
+PouchDB.plugin(require('pouchdb-find'))
 
-let Database = require('../database')
-    Database = new Database()
 const CONSTANTS = require('../../common/constants')
 const responses = require('../../common/responses')
 const Speech = require('../models/speech.model')
@@ -13,8 +11,7 @@ const Tools = require('../../common/tools')
  */
 module.exports = class SpeechTable {
     constructor() {
-        // this.db = new PouchDB(CONSTANTS.DATABASE_NAME)
-        this.db = Database.getInstance()
+        this.db = new PouchDB(CONSTANTS.DATABASE_NAME)
     }
 
     /**
@@ -24,21 +21,16 @@ module.exports = class SpeechTable {
     add(model) {
         // Generate ID
         model._id = 'speech/' + Tools.newUUID()
-        return this.search({ selector: { title: 'Sans categorie' } }).then((data) => {
-            console.log('data ???', data)
-            model.categorieId = data.result[0]._id
-            console.log('model ???', model)
-            return this.db.put(model).then((result) => {
-                if (result.ok) {
-                    console.log('speech add', result)
-                    return Promise.resolve(new responses.Response(result))
-                }
-            }).catch((err) => {
-                console.log('speech add failed', err)
-                return Promise.reject(new responses.ResponseError(err))
-            })
-        })
 
+        return this.db.put(model).then((result) => {
+            if (result.ok) {
+                console.log('speech add', result)
+                return Promise.resolve(new responses.Response(result))
+            }
+        }).catch((err) => {
+            console.log('speech add failed', err)
+            return Promise.reject(new responses.ResponseError(err))
+        })
     }
 
     /**
@@ -63,14 +55,18 @@ module.exports = class SpeechTable {
     findAll() {
         return this.db.allDocs({
             include_docs: true,
-            startkey: 'speech/',
-            endkey: 'speech/\uffff'
+            startkey: '',
+            endkey: 'speech\\' + '\uffff'
         }).then((result) => {
             console.log('All speeches fetched !', result)
-            result.rows.map((s) => {
-                return new Speech(s.doc)
-            })
-            return Promise.resolve(new responses.Response(result.rows))
+            let data = []
+            for (let i in result.rows) {
+                data.push(new Speech(result.rows[i].doc))
+            }
+            // result.rows.map((s) => {
+            //     return new Speech(s.doc)
+            // })
+            return Promise.resolve(new responses.Response(data))
         }).catch((err) => {
             console.log('Error happened, speeches couln\'t be fetched !', err)
             return Promise.reject(new responses.ResponseError(err))
@@ -119,6 +115,7 @@ module.exports = class SpeechTable {
      * @param {Object} opts - Search options, see https://github.com/nolanlawson/pouchdb-find
      */
     search(opts) {
+        console.log('pouchdb = ', this.db)
         return this.db.find(opts).then((result) => {
             console.log('search success !', result)
             return Promise.resolve(new responses.Response(result.docs))

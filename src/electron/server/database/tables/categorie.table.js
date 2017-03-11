@@ -1,8 +1,6 @@
-// const PouchDB = require('pouchdb')
-// PouchDB.plugin(require('pouchdb-find'))
+const PouchDB = require('pouchdb')
+PouchDB.plugin(require('pouchdb-find'))
 
-let Database = require('../database')
-    Database = new Database()
 const CONSTANTS = require('../../common/constants')
 const responses = require('../../common/responses')
 const Categorie = require('../models/categorie.model')
@@ -12,21 +10,20 @@ const Tools = require('../../common/tools')
  * Class that manage Categorie table
  */
 module.exports = class CategorieTable {
-    constructor(dbInstance) {
-        // this.db = new PouchDB(CONSTANTS.DATABASE_NAME)
-        this.db = Database.getInstance()
-        this.baseInit()
-    }
-
-    baseInit() {
-        let model = {_id: null, title: 'Sans categorie', deletable: false};
-        this.search({
-            selector: { title: model.title }
-        }).then((data) => {
-            if (data.result.length == 0) {
-                this.add(model);
+    constructor() {
+        this.db = new PouchDB(CONSTANTS.DATABASE_NAME)
+        // Init table
+        let searchCateg = 'Sans catégorie'
+        this.search({selector: {title: searchCateg}}).then((data) => {
+            if (data.result.length === 0) {
+                let model = new Categorie({
+                    title: searchCateg,
+                    lang: 'fr'
+                })
+                this.add(model)
             }
         })
+        // TODO: Add EN category lang
     }
 
     /**
@@ -70,16 +67,18 @@ module.exports = class CategorieTable {
     findAll() {
         return this.db.allDocs({
             include_docs: true,
-            startkey: 'categorie/',
-            endkey: 'categorie/\uffff'
+            startkey: '',
+            endkey: 'categorie\\' + '\uffff'
         }).then((result) => {
             console.log('All categories fetched !', result)
-            if (result.rows.length > 0) {
-                result.rows.map((c) => {
-                    return new Categorie(c.doc)
-                })
+            // result.rows.map((c) => {
+            //     return new Categorie(c.doc)
+            // })
+            let data = [];
+            for (let c of result.rows) {
+                data.push(new Categorie(c.doc))
             }
-            return Promise.resolve(new responses.Response(result.rows))
+            return Promise.resolve(new responses.Response(data))
         }).catch((err) => {
             console.log('Error happened, categories couln\'t be fetched !', err)
             return Promise.reject(new responses.ResponseError(err))
@@ -128,6 +127,7 @@ module.exports = class CategorieTable {
      * @param {Object} opts - Search options, see https://github.com/nolanlawson/pouchdb-find
      */
     search(opts) {
+        console.log('pouchdb = ', this.db)
         return this.db.find(opts).then((result) => {
             console.log('search success !', result)
             return Promise.resolve(new responses.Response(result.docs))

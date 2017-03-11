@@ -11,10 +11,26 @@ module.exports = class CategorieConverter {
         if (entity !== null || entity !== undefined) {
             dto.id = entity._id.replace('categorie/', '')
             dto.title = entity.title
-            dto.deletable = entity.deletable
+            dto.lang = entity.lang
         }
 
         return dto
+    }
+
+    static toDTOs(entities) {
+        let dtos = []
+
+        if (entities.length > 0) {
+            for (let entity of entities) {
+                let categorie = new CategorieDTO()
+                categorie.id = entity._id.replace('categorie/', '')
+                categorie.title = entity.title
+                categorie.lang = entity.lang
+                dtos.push(categorie)
+            }
+        }
+
+        return dtos
     }
 
     static toEntity(dto) {
@@ -23,7 +39,7 @@ module.exports = class CategorieConverter {
         if (dto !== null || dto !== undefined) {
             entity._id = 'categorie/' + dto.id
             entity.title = dto.title
-            entity.deletable = dto.deletable
+            entity.lang = dto.lang
         }
 
         return entity
