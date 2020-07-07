@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/MISTERSOFT/electron-text-to-speech-app#readme",
   "devDependencies": {
-    "electron": "^1.4.15",
+    "electron": "^9.1.0",
     "gulp": "^3.9.1",
     "gulp-angular-templatecache": "^2.0.0",
     "gulp-concat": "^2.6.1",
